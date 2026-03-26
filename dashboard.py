@@ -64,3 +64,4 @@ if uploaded:
     st.dataframe(filtered)
 else:
     st.info("Upload a CSV to view dashboard and apply sidebar filters.")
+    "Add column validation to prevent KeyError"
