@@ -2,38 +2,72 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# ================= PAGE =================
-st.set_page_config(page_title="Lead Intelligence Pro+", layout="wide")
+# ================= CONFIG =================
+st.set_page_config(page_title="Lead Intelligence", layout="wide")
 
 # ================= THEME =================
 st.markdown("""
 <style>
+/* Base */
 .stApp {
-    background: linear-gradient(135deg, #ffffff, #f5f3ff);
-    color: #1e1b4b;
+    background: #f8fafc;
+    color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
 }
 
 /* Cards */
 .card {
     background: white;
-    padding: 20px;
-    border-radius: 16px;
-    border: 1px solid #e9d5ff;
-    box-shadow: 0 10px 25px rgba(124,58,237,0.08);
-    transition: 0.3s;
+    padding: 22px;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
 }
 .card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 }
 
-/* Sidebar */
-section[data-testid="stSidebar"] {
-    background: #ede9fe;
+/* KPI */
+.kpi {
+    font-size: 28px;
+    font-weight: 600;
+}
+.kpi-label {
+    color: #64748b;
+    font-size: 14px;
 }
 
-/* Titles */
-h1, h2, h3 {
-    color: #5b21b6;
+/* Section Titles */
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Insight Cards */
+.insight-good {
+    background: #ecfdf5;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #bbf7d0;
+}
+.insight-bad {
+    background: #fef2f2;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #fecaca;
+}
+
+/* Buttons / inputs */
+.stButton>button {
+    border-radius: 10px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -52,95 +86,72 @@ def load(file):
                     return cols[col]
         return None
 
-    return df, find(["status"]), find(["source"]), find(["rev","amount"]), find(["date"]), find(["cost","spend"])
+    return df, find(["status"]), find(["source"]), find(["rev","amount"]), find(["date"]), find(["cost"])
 
 
 # ================= SIDEBAR =================
-st.sidebar.title("📘 Dashboard Guide")
+st.sidebar.title("📊 Lead Intelligence")
 
-page = st.sidebar.radio("Navigate", ["Dashboard", "Info"])
+page = st.sidebar.radio("", ["Dashboard", "Info"])
 
 if page == "Info":
-    st.title("📊 What This Dashboard Does")
+    st.title("Product Guide")
 
     st.markdown("""
-### ✅ Insights You Get
-- Conversion Rate  
-- Best & Worst Lead Sources  
-- Revenue Analysis  
-- ROI Tracking  
-- Funnel Visualization  
-- Trends over time  
-- Revenue per Lead  
+### What this tool does
+- Analyze lead performance  
+- Identify best & worst channels  
+- Track revenue and ROI  
+- Visualize funnel & trends  
 
----
+### Required columns
+- Status (Won/Lost)
+- Source (Channel)
+- Revenue
+- Cost (optional)
+- Date (optional)
 
-### 📥 Required Data Columns
-
-| Column Type | Example |
-|------------|--------|
-| Status     | Won, Lost |
-| Source     | Instagram, Google |
-| Revenue    | 5000 |
-| Cost       | 2000 |
-| Date       | 2025-01-01 |
-
----
-
-### ⚡ Tips
-- Use clean data (no blanks)
-- Keep status consistent (won/lost)
-- Add cost for ROI accuracy
-
----
-
-### 🎯 Best Use Cases
-- Marketing Analysis  
-- Lead Tracking  
-- Startup Growth Monitoring  
-- Agency Reporting  
+### Use cases
+- Marketing teams  
+- Agencies  
+- Startups  
 
 """)
     st.stop()
 
 # ================= MAIN =================
-st.title("🚀 Lead Intelligence Pro+")
+st.title("Lead Intelligence Dashboard")
 
-file = st.file_uploader("Upload Dataset", type=["csv", "xlsx"])
+file = st.file_uploader("Upload your dataset", type=["csv","xlsx"])
 
 if file:
     df, status_col, source_col, rev_col, date_col, cost_col = load(file)
 
-    # Clean
     if status_col:
-        df[status_col] = df[status_col].astype(str).str.lower().str.strip()
+        df[status_col] = df[status_col].astype(str).str.lower()
 
     # ================= KPIs =================
     total = len(df)
-    converted = df[status_col].isin(["won","converted","closed"]).sum() if status_col else 0
+    converted = df[status_col].isin(["won","closed"]).sum() if status_col else 0
     revenue = df[rev_col].sum() if rev_col else 0
     cost = df[cost_col].sum() if cost_col else 0
 
     conv_rate = (converted / total * 100) if total else 0
     roi = ((revenue - cost) / cost * 100) if cost > 0 else 0
 
-    c1, c2, c3, c4 = st.columns(4)
+    col1, col2, col3, col4 = st.columns(4)
 
-    c1.markdown(f"<div class='card'><h2>{total}</h2><p>Leads</p></div>", unsafe_allow_html=True)
-    c2.markdown(f"<div class='card'><h2>{conv_rate:.1f}%</h2><p>Conversion</p></div>", unsafe_allow_html=True)
-    c3.markdown(f"<div class='card'><h2>₹{revenue:,.0f}</h2><p>Revenue</p></div>", unsafe_allow_html=True)
-    c4.markdown(f"<div class='card'><h2>{roi:.1f}%</h2><p>ROI</p></div>", unsafe_allow_html=True)
+    col1.markdown(f"<div class='card'><div class='kpi'>{total}</div><div class='kpi-label'>Leads</div></div>", unsafe_allow_html=True)
+    col2.markdown(f"<div class='card'><div class='kpi'>{conv_rate:.1f}%</div><div class='kpi-label'>Conversion</div></div>", unsafe_allow_html=True)
+    col3.markdown(f"<div class='card'><div class='kpi'>₹{revenue:,.0f}</div><div class='kpi-label'>Revenue</div></div>", unsafe_allow_html=True)
+    col4.markdown(f"<div class='card'><div class='kpi'>{roi:.1f}%</div><div class='kpi-label'>ROI</div></div>", unsafe_allow_html=True)
 
-    st.divider()
-
-    # ================= COLORS =================
-    if source_col:
-        unique_sources = df[source_col].unique()
-        color_map = {src: px.colors.qualitative.Bold[i % len(px.colors.qualitative.Bold)]
-                     for i, src in enumerate(unique_sources)}
+    st.markdown("<br>", unsafe_allow_html=True)
 
     # ================= CHART =================
     if source_col:
+        st.markdown("<div class='section-title'>Channel Performance</div>", unsafe_allow_html=True)
+
         data = df[source_col].value_counts().reset_index()
         data.columns = [source_col, "Leads"]
 
@@ -148,73 +159,50 @@ if file:
             data,
             x=source_col,
             y="Leads",
+            text="Leads",
             color=source_col,
-            color_discrete_map=color_map,
-            text="Leads"
+            color_discrete_sequence=px.colors.sequential.Purples
         )
 
-        fig.update_traces(textposition='outside')
-        fig.update_layout(showlegend=False)
-
-        st.plotly_chart(fig, use_container_width=True)
-
-    # ================= REVENUE =================
-    if source_col and rev_col:
-        rev = df.groupby(source_col)[rev_col].sum().reset_index()
-
-        fig = px.pie(
-            rev,
-            names=source_col,
-            values=rev_col,
-            color=source_col,
-            color_discrete_map=color_map
+        fig.update_traces(textposition="outside")
+        fig.update_layout(
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            showlegend=False
         )
-
-        fig.update_traces(textinfo="percent+label")
 
         st.plotly_chart(fig, use_container_width=True)
 
     # ================= INSIGHTS =================
-    st.subheader("🧠 Smart Insights")
+    st.markdown("<div class='section-title'>Insights</div>", unsafe_allow_html=True)
 
     if source_col and status_col:
         perf = df.groupby(source_col).agg(
             leads=(source_col,"count"),
-            conversions=(status_col, lambda x: x.isin(["won","converted","closed"]).sum())
+            conv=(status_col, lambda x: x.isin(["won","closed"]).sum())
         ).reset_index()
 
-        perf["rate"] = perf["conversions"] / perf["leads"]
+        perf["rate"] = perf["conv"] / perf["leads"]
 
         best = perf.sort_values("rate", ascending=False).iloc[0]
         worst = perf.sort_values("rate").iloc[0]
 
-        st.success(f"🔥 Best: {best[source_col]} ({best['rate']*100:.1f}%)")
-        st.error(f"❌ Worst: {worst[source_col]} ({worst['rate']*100:.1f}%)")
+        c1, c2 = st.columns(2)
+
+        c1.markdown(f"<div class='insight-good'>🔥 Best: <b>{best[source_col]}</b> ({best['rate']*100:.1f}%)</div>", unsafe_allow_html=True)
+        c2.markdown(f"<div class='insight-bad'>❌ Worst: <b>{worst[source_col]}</b> ({worst['rate']*100:.1f}%)</div>", unsafe_allow_html=True)
 
     # ================= GOAL =================
-    st.subheader("🎯 Goal Tracker")
+    st.markdown("<div class='section-title'>Goal Tracking</div>", unsafe_allow_html=True)
 
-    target = st.number_input("Set Target", value=50000)
+    target = st.number_input("Revenue Target", value=50000)
 
     progress = (revenue / target * 100) if target else 0
     progress = min(progress, 100)
 
     st.progress(int(progress))
-    st.write(f"{progress:.1f}% achieved")
-
-    # ================= ANIMATION FEEL =================
-    st.markdown("""
-    <style>
-    div[data-testid="stMetric"] {
-        animation: fadeIn 0.8s ease-in;
-    }
-    @keyframes fadeIn {
-        from {opacity:0; transform:translateY(10px);}
-        to {opacity:1; transform:translateY(0);}
-    }
-    </style>
-    """, unsafe_allow_html=True)
+    st.caption(f"{progress:.1f}% achieved")
 
     # ================= DATA =================
-    with st.expander("📂 Data"):
+    with st.expander("View Data"):
         st.dataframe(df)
