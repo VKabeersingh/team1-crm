@@ -23,16 +23,16 @@ st.set_page_config(
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
-
+ 
 *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
-
+ 
 html, body, .stApp {
     background: #020817 !important;
     color: #e2e8f0 !important;
     font-family: 'Space Grotesk', sans-serif;
     overflow-x: hidden;
 }
-
+ 
 .stApp::before {
     content: '';
     position: fixed; inset: 0;
@@ -44,7 +44,7 @@ html, body, .stApp {
     animation: meshPulse 8s ease-in-out infinite alternate;
 }
 @keyframes meshPulse { 0%{opacity:.7} 100%{opacity:1} }
-
+ 
 .stApp::after {
     content: '';
     position: fixed; inset: 0;
@@ -54,7 +54,7 @@ html, body, .stApp {
     background-size: 40px 40px;
     pointer-events: none; z-index: 0;
 }
-
+ 
 section[data-testid="stSidebar"] {
     background: rgba(2,8,23,0.85) !important;
     backdrop-filter: blur(20px) !important;
@@ -64,10 +64,10 @@ section[data-testid="stSidebar"] {
 section[data-testid="stSidebar"] > div { background: transparent !important; }
 section[data-testid="stSidebar"] * { color: #94a3b8 !important; }
 section[data-testid="stSidebar"] hr { border-color: rgba(0,212,255,0.12) !important; }
-
+ 
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding: 1.8rem 2.2rem !important; max-width: 100% !important; position: relative; z-index: 1; }
-
+ 
 .stRadio > label { color: #475569 !important; font-size: 10px !important; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; }
 .stRadio div[role="radiogroup"] label {
     color: #64748b !important; font-size: 13px !important;
@@ -78,12 +78,12 @@ section[data-testid="stSidebar"] hr { border-color: rgba(0,212,255,0.12) !import
     background: rgba(0,212,255,0.06) !important;
     border-color: rgba(0,212,255,0.2) !important; color: #00d4ff !important;
 }
-
+ 
 @keyframes fadeSlideUp {
     from { opacity:0; transform: translateY(16px); }
     to   { opacity:1; transform: translateY(0); }
 }
-
+ 
 .kpi-card {
     background: rgba(255,255,255,0.03);
     backdrop-filter: blur(20px);
@@ -99,20 +99,20 @@ section[data-testid="stSidebar"] hr { border-color: rgba(0,212,255,0.12) !import
 .kpi-card.green  { --accent:rgba(0,255,163,.4);   --glow-soft:rgba(0,255,163,.15); }
 .kpi-card.amber  { --accent:rgba(251,191,36,.4);  --glow-soft:rgba(251,191,36,.15); }
 .kpi-card.red    { --accent:rgba(248,113,113,.4); --glow-soft:rgba(248,113,113,.15); }
-
+ 
 .kpi-topbar { height:2px; width:40px; border-radius:2px; margin-bottom:14px; }
 .cyan   .kpi-topbar { background:linear-gradient(90deg,#00d4ff,#0ea5e9); box-shadow:0 0 12px #00d4ff; }
 .purple .kpi-topbar { background:linear-gradient(90deg,#a855f7,#8b5cf6); box-shadow:0 0 12px #a855f7; }
 .green  .kpi-topbar { background:linear-gradient(90deg,#00ffa3,#10b981); box-shadow:0 0 12px #00ffa3; }
 .amber  .kpi-topbar { background:linear-gradient(90deg,#fbbf24,#f59e0b); box-shadow:0 0 12px #fbbf24; }
 .red    .kpi-topbar { background:linear-gradient(90deg,#f87171,#ef4444); box-shadow:0 0 12px #f87171; }
-
+ 
 .kpi-icon  { font-size:20px; margin-bottom:8px; }
 .kpi-label { font-size:11px; color:#475569; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
 .kpi-value { font-size:26px; font-weight:700; color:#f8fafc; letter-spacing:-0.5px; font-family:'Space Mono',monospace; }
 .kpi-delta { font-size:11px; margin-top:5px; }
 .kpi-delta.pos{color:#00ffa3} .kpi-delta.neg{color:#f87171} .kpi-delta.neu{color:#475569}
-
+ 
 .sec-title {
     font-size:16px; font-weight:600; color:#e2e8f0;
     letter-spacing:-0.3px; margin-bottom:14px;
@@ -122,7 +122,7 @@ section[data-testid="stSidebar"] hr { border-color: rgba(0,212,255,0.12) !import
     content:''; display:inline-block; width:3px; height:16px; border-radius:2px;
     background:linear-gradient(180deg,#00d4ff,#a855f7); box-shadow:0 0 8px #00d4ff;
 }
-
+ 
 .ins-card {
     border-radius:14px; padding:15px 16px; border:1px solid;
     margin-bottom:10px; display:flex; gap:12px; align-items:flex-start;
@@ -136,7 +136,7 @@ section[data-testid="stSidebar"] hr { border-color: rgba(0,212,255,0.12) !import
 .ins-icon {font-size:20px;flex-shrink:0;margin-top:1px}
 .ins-title{font-weight:600;font-size:13px;color:#f1f5f9;margin-bottom:3px}
 .ins-desc {font-size:12px;color:#64748b;line-height:1.6}
-
+ 
 .rec-pill {
     display:flex; align-items:flex-start; gap:10px;
     background:rgba(255,255,255,.03); backdrop-filter:blur(12px);
@@ -152,7 +152,7 @@ section[data-testid="stSidebar"] hr { border-color: rgba(0,212,255,0.12) !import
 .rec-badge.high  {background:rgba(248,113,113,.2);color:#f87171;border:1px solid rgba(248,113,113,.4)}
 .rec-badge.medium{background:rgba(251,191,36,.2) ;color:#fbbf24;border:1px solid rgba(251,191,36,.4)}
 .rec-badge.low   {background:rgba(0,255,163,.15) ;color:#00ffa3;border:1px solid rgba(0,255,163,.3)}
-
+ 
 .risk-item {
     display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;
     background:rgba(255,255,255,.025);backdrop-filter:blur(12px);
@@ -168,7 +168,7 @@ section[data-testid="stSidebar"] hr { border-color: rgba(0,212,255,0.12) !import
 .risk-text {font-size:13px;color:#94a3b8;flex:1;line-height:1.5}
 .risk-level{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
 .risk-level.high{color:#f87171}.risk-level.medium{color:#fbbf24}.risk-level.low{color:#00ffa3}
-
+ 
 .pred-card {
     background:rgba(147,51,234,.08);backdrop-filter:blur(20px);
     border:1px solid rgba(147,51,234,.25);border-radius:18px;padding:22px;
@@ -178,7 +178,7 @@ section[data-testid="stSidebar"] hr { border-color: rgba(0,212,255,0.12) !import
 .pred-month{font-size:11px;color:#7c3aed;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
 .pred-value{font-size:30px;font-weight:700;color:#a855f7;font-family:'Space Mono';letter-spacing:-1px}
 .pred-note {font-size:11px;color:#6d28d9;margin-top:6px}
-
+ 
 .pg-header{margin-bottom:2rem;animation:fadeSlideUp 0.4s ease both}
 .pg-badge {
     display:inline-block;
@@ -188,9 +188,9 @@ section[data-testid="stSidebar"] hr { border-color: rgba(0,212,255,0.12) !import
 }
 .pg-title{font-size:30px;font-weight:700;color:#f8fafc;letter-spacing:-0.8px;line-height:1.2}
 .pg-sub {color:#475569;font-size:13px;margin-top:5px}
-
+ 
 .neon-hr{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,.3),transparent);margin:1.5rem 0}
-
+ 
 .info-box {
     background:rgba(255,255,255,.025);backdrop-filter:blur(16px);
     border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:22px;margin-bottom:14px;
@@ -198,7 +198,7 @@ section[data-testid="stSidebar"] hr { border-color: rgba(0,212,255,0.12) !import
 }
 .info-box h3{color:#e2e8f0;font-size:15px;font-weight:600;margin-bottom:10px}
 .feat-tag{display:inline-block;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:#00d4ff;font-size:11px;padding:4px 10px;border-radius:8px;margin:3px}
-
+ 
 .stProgress > div > div{background:rgba(255,255,255,.06)!important;border-radius:99px}
 .stProgress > div > div > div{background:linear-gradient(90deg,#00d4ff,#a855f7)!important;border-radius:99px;box-shadow:0 0 12px rgba(0,212,255,.5)}
 div[data-testid="stFileUploader"]{background:rgba(255,255,255,.02);border:2px dashed rgba(0,212,255,.2);border-radius:16px;padding:8px;transition:all 0.2s ease;backdrop-filter:blur(12px)}
@@ -209,11 +209,13 @@ div[data-testid="stFileUploader"]:hover{border-color:rgba(0,212,255,.5);backgrou
 .stExpander{background:rgba(255,255,255,.02)!important;border:1px solid rgba(255,255,255,.07)!important;border-radius:14px!important;backdrop-filter:blur(12px)!important}
 label,.stSelectbox label,.stNumberInput label,.stMultiSelect label{color:#475569!important;font-size:12px!important;letter-spacing:.5px}
 .stDataFrame{border-radius:12px;overflow:hidden}
-
+ 
 @keyframes glowPulse{0%,100%{text-shadow:0 0 10px rgba(0,212,255,.5),0 0 20px rgba(0,212,255,.3)}50%{text-shadow:0 0 20px rgba(0,212,255,.8),0 0 40px rgba(0,212,255,.5)}}
 .glow-text{animation:glowPulse 3s ease-in-out infinite}
 </style>
 """, unsafe_allow_html=True)
+ 
+ 
 
 
 # ─────────────────────────────────────────────
@@ -374,7 +376,11 @@ FORMATS<br><span style='color:#334155'>.csv · .xlsx</span>
 if page == "ℹ️  How It Works":
     st.markdown("""
 <div class='pg-header'>
-  <div class='pg-badge'>Guide</div>
+# Floating open button
+st.markdown('<div class="open-sidebar-btn">', unsafe_allow_html=True)
+st.button("☰")
+st.markdown('</div>', unsafe_allow_html=True)
+<div class='pg-badge'>Guide</div>
   <div class='pg-title'>How LeadLens Works</div>
   <div class='pg-sub'>Upload any CSV or Excel — auto-detects columns and builds your complete analysis</div>
 </div>""", unsafe_allow_html=True)
